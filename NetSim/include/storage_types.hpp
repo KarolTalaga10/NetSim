@@ -40,7 +40,7 @@ public:
 
 class PackageQueue: IPackageQueue{
 public:
-    PackageQueue(PackageQueueType _mQueueType) : mQueueType(_mQueueType) {}
+    PackageQueue(PackageQueueType QueueType) : mQueueType(QueueType) {}
 
     void push(Package&& pck) override;
 
