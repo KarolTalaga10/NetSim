@@ -17,7 +17,9 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-
+    virtual void push(Package&& pck) = 0;
+    virtual bool empty() = 0;
+    virtual size_t size() = 0;
 };
 
 
@@ -29,9 +31,7 @@ public:
 
 class PackageQueue: IPackageQueue{
 public:
-    virtual void push(Package&& pck) = 0;
-    virtual bool empty() = 0;
-    virtual size_t size() = 0;
+
 };
 
 #endif //NETSIM_STORAGE_TYPES_HPP
