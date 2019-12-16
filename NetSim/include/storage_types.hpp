@@ -56,7 +56,7 @@ public:
 
     const_iterator cbegin() override;
 
-    const_iterator begin() override;
+    const_iterator cend() override;
 
 private:
     PackageQueueType mQueueType;
