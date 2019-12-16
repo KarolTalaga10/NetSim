@@ -17,6 +17,8 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
+    using const_iterator = std::deque<Package>::const_iterator;
+    using iterator = std::deque<Package>::iterator;
 
 };
 
@@ -29,9 +31,27 @@ public:
 
 class PackageQueue: IPackageQueue{
 public:
-    virtual void push(Package&& pck) = 0;
-    virtual bool empty() = 0;
-    virtual size_t size() = 0;
+    PackageQueue(PackageQueueType _mQueueType) : mQueueType(_mQueueType) {}
+
+    void puch(Package&& pck) override;
+
+    Package pop() const override;
+
+    bool empty() const override;
+
+    size_t size() const override;
+
+    iterator begin() override;
+
+    iterator end() override;
+
+    const_iterator cbegin() override;
+
+    const_iterator begin() override;
+
+private:
+    PackageQueueType mQueueType;
+    std::list<Package> package_list;
 };
 
 #endif //NETSIM_STORAGE_TYPES_HPP
