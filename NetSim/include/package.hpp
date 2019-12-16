@@ -8,9 +8,13 @@
 
 class Package{
 private:
+    ElementID mID;
 
 public:
-
+    Package();
+    Package(const Package&& pcg);
+    Package& operator = (const Package&& pcg);
+    ElementID get_id() const { return mID; }
 };
 
 #endif //NETSIM_PACKAGE_HPP

@@ -4,7 +4,11 @@
 #define NETSIM_TYPES_HPP
 
 #include <cstdint>
+#include <deque>
+#include "package.hpp"
+
 using ElementID = uint64_t;
 using size_t = std::size_t;
+
 
 #endif //NETSIM_TYPES_HPP
