@@ -17,9 +17,17 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    virtual void pushXD(Package&& pck) = 0;
-    virtual bool empty() = 0;
-    virtual size_t size() = 0;
+
+    using const_iterator = std::deque<Package>::const_iterator;
+    using iterator = std::deque<Package>::iterator;
+    virtual void push(Package&& pck) = 0;
+    virtual bool empty() const = 0;
+    virtual size_t size() const = 0;
+    virtual iterator begin() = 0;
+    virtual iterator end() = 0;
+    virtual const_iterator cbegin() = 0;
+    virtual const_iterator cend() = 0;
+
 };
 
 
