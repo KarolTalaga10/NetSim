@@ -1,3 +1,4 @@
+
 // Karol Talaga 302929, Mateusz Bahyrycz 284336, Zbigniew Żeglecki 302947
 
 #ifndef NETSIM_STORAGE_TYPES_HPP
@@ -39,7 +40,28 @@ public:
 
 class PackageQueue: IPackageQueue{
 public:
+    PackageQueue(PackageQueueType _mQueueType) : mQueueType(_mQueueType) {}
 
+    void push(Package&& pck) override;
+
+    Package pop() const override;
+
+    bool empty() const override;
+
+    size_t size() const override;
+
+    iterator begin() override;
+
+    iterator end() override;
+
+    const_iterator cbegin() override;
+
+    const_iterator begin() override;
+
+private:
+    PackageQueueType mQueueType;
+    std::list<Package> package_list;
 };
 
 #endif //NETSIM_STORAGE_TYPES_HPP
+
