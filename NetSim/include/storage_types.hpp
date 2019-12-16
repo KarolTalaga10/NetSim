@@ -44,7 +44,7 @@ public:
 
     void push(Package&& pck) override;
 
-    Package pop() const override;
+    Package pop() override;
 
     bool empty() const override;
 
@@ -56,7 +56,7 @@ public:
 
     const_iterator cbegin() override;
 
-    const_iterator begin() override;
+    const_iterator cend() override;
 
 private:
     PackageQueueType mQueueType;
