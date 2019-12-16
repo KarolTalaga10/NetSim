@@ -17,7 +17,7 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    virtual void push(Package&& pck) = 0;
+    virtual void pushXD(Package&& pck) = 0;
     virtual bool empty() = 0;
     virtual size_t size() = 0;
 };
