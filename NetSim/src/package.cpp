@@ -3,6 +3,9 @@
 #include <package.hpp>
 #include <iostream>
 
+std::set<ElementID>Package::assigned_IDs = {};
+std::set<ElementID>Package::freed_IDs = {};
+
 bool Package::is_ID_assigned(const ElementID &id_to_assign)
 {
     bool is_in = assigned_IDs.find(id_to_assign) != assigned_IDs.end();

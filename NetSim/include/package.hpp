@@ -7,14 +7,13 @@
 #include <set>
 #include "types.hpp"
 
-static std::set<ElementID>assigned_IDs;
-static std::set<ElementID>freed_IDs;
-
 class Package{
 private:
     ElementID mID;
     bool is_ID_assigned(const ElementID &id_to_assign);
     ElementID give_id();
+    static std::set<ElementID>assigned_IDs;
+    static std::set<ElementID>freed_IDs;
 public:
     Package() {mID = give_id(); assigned_IDs.insert(get_id());};
     ~Package() {assigned_IDs.erase(mID); freed_IDs.insert(mID);}

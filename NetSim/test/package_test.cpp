@@ -3,12 +3,6 @@
 
 #include "package.hpp"
 
-/********************************
- *                              *
- * DZIALA TYLKO POJEDYNCZO !!!  *
- *                              *
- ********************************/
-
 TEST(PackageInitTest, firstPackageID) {
     Package pack1;
 
