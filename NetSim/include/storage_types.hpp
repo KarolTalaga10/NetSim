@@ -43,9 +43,9 @@ private:
     std::deque<Package> mQueue;
     std::list<Package> mList;
 public:
-    
     PackageQueue(PackageQueueType queueType) : mQueueType(queueType) {}
     PackageQueueType get_queue_type() const override { return mQueueType; }
+
     Package pop() override;
     void push(Package&& pck) override;
     bool empty() const override     { return mQueue.empty();  }
