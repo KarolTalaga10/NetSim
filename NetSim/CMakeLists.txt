@@ -20,7 +20,8 @@ add_executable(main__debug ${SOURCE_FILES} main.cpp)
 # == Unit testing using Google Testing Framework ==
 
 set(SOURCES_FILES_TESTS
-        test/tests.cpp
+        test/package_test.cpp
+        test/storage_tests.cpp
         )
 
 add_executable(sol__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
