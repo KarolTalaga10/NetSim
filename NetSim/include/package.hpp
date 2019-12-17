@@ -17,6 +17,7 @@ private:
     ElementID give_id();
 public:
     Package() {mID = give_id();};
+    ~Package() {assigned_IDs.erase(mID); freed_IDs.insert(mID);}
     Package(const Package&& pcg):mID(std::move(pcg.mID)) {};
     Package& operator = (const Package&& pcg);
     ElementID get_id() const { return mID; }
