@@ -1,3 +1,5 @@
 NetSim/.idea
 
 NetSim/cmake-build-debug
+
+NetSim/googletest-master
