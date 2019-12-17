@@ -41,7 +41,7 @@ class PackageQueue: IPackageQueue{
 private:
     PackageQueueType mQueueType;
     std::deque<Package> mQueue;
-    std::list<Package&> mList;
+    std::list<Package> mList;
 public:
     using iterator = std::deque<Package>::const_iterator;
     

@@ -2,7 +2,7 @@
 
 #include "package.hpp"
 #include "storage_types.hpp"
-
+/*
 Package PackageQueue::pop() {
 
 }
@@ -10,3 +10,4 @@ Package PackageQueue::pop() {
 void PackageQueue::push(Package &&pck) {
 
 }
+ */
