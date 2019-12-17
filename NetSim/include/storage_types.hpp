@@ -18,44 +18,42 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    using const_iterator = std::deque<Package>::const_iterator;
-    using iterator = std::deque<Package>::iterator;
+    using iterator = std::deque<Package>::const_iterator;
 
     virtual void push(Package&& pck) = 0;
     virtual bool empty() const = 0;
     virtual size_t size() const = 0;
     virtual iterator begin() const = 0;
     virtual iterator end() const = 0;
-    virtual const_iterator cbegin() const = 0;
-    virtual const_iterator cend() const = 0;
+    virtual iterator cbegin() const = 0;
+    virtual iterator cend() const = 0;
 
 };
 
 
-class IPackageQueue: IPackageStockpile{
+class IPackageQueue: public IPackageStockpile{
 public:
     virtual Package pop() = 0;
-    virtual PackageQueueType get_queue_type() = 0;
+    virtual PackageQueueType get_queue_type() const = 0;
 };
 
-class PackageQueue: IPackageQueue{
-public:
-    using const_iterator = std::deque<Package>::const_iterator;
-    using iterator = std::deque<Package>::iterator;
-
-    PackageQueue(PackageQueueType QueueType) : mQueueType(QueueType) {}
-    Package pop() override;
-    void push(Package&& pck) override;
-    bool empty() const override;
-    size_t size() const override;
-    iterator begin() const override;
-    iterator end() const override;
-    const_iterator cbegin()const override;
-    const_iterator cend() const override;
-
+class PackageQueue: public IPackageQueue{
 private:
     PackageQueueType mQueueType;
-    std::list<Package> package_list;
+    std::deque<Package> mQueue;
+    std::list<Package> mList;
+public:
+    PackageQueue(PackageQueueType queueType) : mQueueType(queueType) {}
+    PackageQueueType get_queue_type() const override { return mQueueType; }
+
+    Package pop() override;
+    void push(Package&& pck) override;
+    bool empty() const override     { return mQueue.empty();  }
+    size_t size() const override    { return mQueue.size();   }
+    iterator begin() const override { return mQueue.begin();  }
+    iterator end() const override   { return mQueue.end();    }
+    iterator cbegin()const override { return mQueue.cbegin(); }
+    iterator cend() const override  { return mQueue.cend();   }
 };
 
 #endif //NETSIM_STORAGE_TYPES_HPP
