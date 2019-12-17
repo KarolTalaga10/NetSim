@@ -4,7 +4,11 @@
 #define NETSIM_PACKAGE_HPP
 
 #include <iostream>
+#include <set>
 #include "types.hpp"
+
+static std::set<ElementID>assigned_IDs;
+static std::set<ElementID>freed_IDs;
 
 class Package{
 private:
