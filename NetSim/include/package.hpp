@@ -19,9 +19,13 @@ public:
     Package() {mID = give_id(); assigned_IDs.insert(get_id());};
     ~Package() {assigned_IDs.erase(mID); freed_IDs.insert(mID);}
     Package(const Package&& pcg):mID(std::move(pcg.mID)) {};
-    Package& operator = (const Package&& pcg);
+    Package& operator= (Package&& pcg) {
+        freed_IDs.emplace(mID);
+        mID = std::move(pcg.mID);
+        return *this;
+    }
     ElementID get_id() const { return mID; }
-
 };
 
 #endif //NETSIM_PACKAGE_HPP
+
