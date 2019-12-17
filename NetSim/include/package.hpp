@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <set>
-#include <utility>
 #include "types.hpp"
 
 static std::set<ElementID>assigned_IDs;
