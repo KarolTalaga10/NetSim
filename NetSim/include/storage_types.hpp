@@ -31,21 +31,20 @@ public:
 };
 
 
-class IPackageQueue: IPackageStockpile{
+class IPackageQueue: public IPackageStockpile{
 public:
     virtual Package pop() = 0;
     virtual PackageQueueType get_queue_type() const = 0;
 };
 
-class PackageQueue: IPackageQueue{
+class PackageQueue: public IPackageQueue{
 private:
     PackageQueueType mQueueType;
     std::deque<Package> mQueue;
     std::list<Package> mList;
 public:
-    using iterator = std::deque<Package>::const_iterator;
     
-    PackageQueue(PackageQueueType QueueType) : mQueueType(QueueType) {}
+    PackageQueue(PackageQueueType queueType) : mQueueType(queueType) {}
     PackageQueueType get_queue_type() const override { return mQueueType; }
     Package pop() override;
     void push(Package&& pck) override;
