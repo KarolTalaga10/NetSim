@@ -41,7 +41,6 @@ class PackageQueue: public IPackageQueue{
 private:
     PackageQueueType mQueueType;
     std::deque<Package> mQueue;
-    std::list<Package> mList;
 public:
     PackageQueue(PackageQueueType queueType) : mQueueType(queueType) {}
     PackageQueueType get_queue_type() const override { return mQueueType; }
