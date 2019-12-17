@@ -13,10 +13,12 @@ static std::set<ElementID>freed_IDs;
 class Package{
 private:
     ElementID mID;
-
+    bool is_ID_assigned(const ElementID &id_to_assign);
+    ElementID give_id();
 public:
-    Package();
-    Package(const Package&& pcg);
+    Package() {mID = give_id(); assigned_IDs.insert(get_id());};
+    ~Package() {assigned_IDs.erase(mID); freed_IDs.insert(mID);}
+    Package(const Package&& pcg):mID(std::move(pcg.mID)) {};
     Package& operator= (Package&& pcg) {
         freed_IDs.emplace(mID);
         mID = std::move(pcg.mID);
@@ -26,3 +28,4 @@ public:
 };
 
 #endif //NETSIM_PACKAGE_HPP
+
