@@ -34,17 +34,19 @@ public:
 class IPackageQueue: IPackageStockpile{
 public:
     virtual Package pop() = 0;
-    virtual PackageQueueType get_queue_type() = 0;
+    virtual PackageQueueType get_queue_type() const = 0;
 };
 
 class PackageQueue: IPackageQueue{
 private:
+    PackageQueueType mQueueType;
     std::deque<Package> mQueue;
-    std::list<Package> mList;
+    std::list<Package&> mList;
 public:
     using iterator = std::deque<Package>::const_iterator;
     
     PackageQueue(PackageQueueType QueueType) : mQueueType(QueueType) {}
+    PackageQueueType get_queue_type() const override { return mQueueType; }
     Package pop() override;
     void push(Package&& pck) override;
     bool empty() const override     { return mQueue.empty();  }
@@ -53,10 +55,6 @@ public:
     iterator end() const override   { return mQueue.end();    }
     iterator cbegin()const override { return mQueue.cbegin(); }
     iterator cend() const override  { return mQueue.cend();   }
-
-private:
-    PackageQueueType mQueueType;
-    std::list<Package> package_list;
 };
 
 #endif //NETSIM_STORAGE_TYPES_HPP
