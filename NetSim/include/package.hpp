@@ -17,7 +17,13 @@ private:
 public:
     Package();
     Package(const Package&& pcg);
-    Package& operator = (const Package&& pcg);
+    Package& operator= ( Package&& pcg) {
+        if(this != &pcg) {
+            delete[] &mID;
+            mID = pcg.mID;
+        }
+        return *this;
+    }
     ElementID get_id() const { return mID; }
 };
 

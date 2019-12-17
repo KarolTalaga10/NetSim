@@ -42,7 +42,7 @@ class PackageQueue: IPackageQueue{
 public:
     using const_iterator = std::deque<Package>::const_iterator;
     using iterator = std::deque<Package>::iterator;
-    
+
     PackageQueue(PackageQueueType QueueType) : mQueueType(QueueType) {}
     Package pop() override;
     void push(Package&& pck) override;
