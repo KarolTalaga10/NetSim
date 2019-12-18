@@ -25,3 +25,31 @@ ElementID Package::give_id()
     freed_IDs.emplace(given_id+1);
     return given_id;
 }
+/*
+ElementID Package::give_id() {
+    ElementID id_to_be_given = 0;
+
+    if(freed_IDs.empty() && assigned_IDs.empty()) {
+        id_to_be_given = 1;
+
+        ElementID given_id = id_to_be_given;
+        freed_IDs.erase(given_id);
+        assigned_IDs.emplace(given_id);
+
+        return id_to_be_given;
+    }
+
+    do {
+        id_to_be_given += 1;
+    }
+    while(is_ID_assigned(id_to_be_given));
+
+    ElementID given_id = id_to_be_given;
+    freed_IDs.erase(given_id);
+    assigned_IDs.emplace(given_id);
+
+    return given_id;
+
+
+}
+ */
