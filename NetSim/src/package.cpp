@@ -14,16 +14,25 @@ bool Package::is_ID_assigned(const ElementID &id_to_assign)
 
 ElementID Package::give_id()
 {
-    ElementID id_to_be_given = 1;
-    if(is_ID_assigned(id_to_be_given))
-    {
-        id_to_be_given = *freed_IDs.begin();
+    ElementID id_to_be_given = 0;
+
+    if(freed_IDs.empty()) {
+        if(assigned_IDs.empty()) {
+            id_to_be_given = 1;
+        }
+
+        else {
+            id_to_be_given = *(assigned_IDs.rbegin())+1;
+        }
     }
-    ElementID given_id = id_to_be_given;
-    freed_IDs.erase(given_id);
-    assigned_IDs.emplace(given_id);
-    freed_IDs.emplace(given_id+1);
-    return given_id;
+
+    else{
+        id_to_be_given = *(freed_IDs.begin());
+        freed_IDs.erase(id_to_be_given);
+        assigned_IDs.emplace(id_to_be_given);
+    }
+
+    return id_to_be_given;
 }
 /*
 ElementID Package::give_id() {
@@ -50,6 +59,40 @@ ElementID Package::give_id() {
 
     return given_id;
 
+}
 
+
+ ElementID Package::give_id()
+{
+    ElementID id_to_be_given = 1;
+
+    if(freed_IDs.empty() && assigned_IDs.empty()) {
+        id_to_be_given = 1;
+
+        ElementID given_id = id_to_be_given;
+        freed_IDs.erase(given_id);
+        assigned_IDs.emplace(given_id);
+
+        return id_to_be_given;
+    }
+
+    if(is_ID_assigned(id_to_be_given))
+    {
+        id_to_be_given = *freed_IDs.begin();
+    }
+    ElementID given_id = id_to_be_given;
+    freed_IDs.erase(given_id);
+    assigned_IDs.emplace(given_id);
+
+    int i = 1;
+    do {
+        if(!is_ID_assigned(given_id+i)) {
+            freed_IDs.emplace(given_id + i);
+        }
+        i++;
+    }
+    while(is_ID_assigned(given_id+i));
+
+    return given_id;
 }
  */
