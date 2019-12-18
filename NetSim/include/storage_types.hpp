@@ -18,7 +18,7 @@ enum class PackageQueueType{
 
 class IPackageStockpile{
 public:
-    using iterator = std::deque<Package>::const_iterator;
+    using iterator = std::list<Package>::const_iterator;
 
     virtual void push(Package&& pck) = 0;
     virtual bool empty() const = 0;
@@ -33,19 +33,19 @@ public:
 
 class IPackageQueue: public IPackageStockpile{
 public:
-    virtual Package& pop() = 0;
+    virtual Package pop() = 0;
     virtual PackageQueueType get_queue_type() const = 0;
 };
 
 class PackageQueue: public IPackageQueue{
 private:
     PackageQueueType mQueueType;
-    std::deque<Package> mQueue;
+    std::list<Package> mQueue;
 public:
     PackageQueue(PackageQueueType queueType) : mQueueType(queueType) {}
     PackageQueueType get_queue_type() const override { return mQueueType; }
 
-    Package& pop() override;
+    Package pop() override;
     void push(Package&& pck) override;
     bool empty() const override     { return mQueue.empty();  }
     size_t size() const override    { return mQueue.size();   }
