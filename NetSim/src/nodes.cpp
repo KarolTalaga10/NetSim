@@ -26,11 +26,12 @@ void ReceiverPreferences::rebuild_pref()
     {
         item.second /= sum;
     }
-}
+}/*
 void PackageSender::send_package()
 {
-
-}
+    mReceiverPreferences.choose_receiver()->receive_package(std::move(*mBuffer));
+    mBuffer.reset();
+}*/
 void PackageSender::push_package(Package&& pck)
 {
     mBuffer.emplace(std::move(pck));
