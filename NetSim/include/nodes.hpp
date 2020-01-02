@@ -83,7 +83,7 @@ public:
 
 class Storehouse : IPackageReceiver
 {
-    Storehouse(ElementID id, std::unique_ptr<PackageQueue> queue_ptr);
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> queue_ptr);
 };
 
 
