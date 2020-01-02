@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(NetSim)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors)
 
@@ -12,6 +12,8 @@ include_directories(
 set(SOURCE_FILES
         src/package.cpp
         src/storage_types.cpp
+        src/nodes.cpp
+        src/helpers.cpp
         )
 
 
