@@ -35,7 +35,7 @@ public:
     ReceiverPreferences(std::function<double(void)> rng = get_random) : mRng(std::move(rng)) {}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
-    IPackageReceiver* choose_receiver();
+    IPackageReceiver* choose_receiver(); //TODO troche nie wiem jak zaimplementowac ta dystrybuantę
 
     iterator begin()              { return mPreferences.begin();  }
     iterator end()                { return mPreferences.end();    }
@@ -63,8 +63,8 @@ private:
 public:
     Ramp(ElementID id, TimeOffset offset) : mOffset(offset), mID(id) {}
     void deliver_goods(Time time);
-    TimeOffset get_delivery_interval() const;
-    ElementID get_ID() const;
+    TimeOffset get_delivery_interval()  const {return mOffset; }
+    ElementID get_ID()                  const { return mID;    }
 };
 
 class Worker : PackageSender, IPackageReceiver
@@ -77,8 +77,8 @@ private:
 public:
     Worker(ElementID id, TimeOffset offset, std::unique_ptr<PackageQueue> queue_ptr);
     void do_work(Time time);
-    TimeOffset get_processing_duration() const;
-    Time get_package_processing_start_time() const { return mTime; }
+    TimeOffset get_processing_duration()     const { return mOffset; }
+    Time get_package_processing_start_time() const { return mTime;   }
 };
 
 class Storehouse : IPackageReceiver
