@@ -6,6 +6,8 @@
 #include <map>
 #include "package.hpp"
 #include "storage_types.hpp"
+#include <functional>
+#include "helpers.hpp"
 
 class IPackageReceiver
 {
@@ -27,7 +29,10 @@ class ReceiverPreferences
     using iterator = preferences_t::iterator;
 private:
     preferences_t mPreferences;
+    void rebuild_pref();
+    std::function<double(void)> mRng;
 public:
+    ReceiverPreferences(std::function<double(void)> rng = get_random) : mRng(std::move(rng)) {}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
@@ -52,8 +57,11 @@ protected:
 
 class Ramp : PackageSender
 {
+private:
+    TimeOffset mOffset;
+    ElementID mID;
 public:
-    Ramp(ElementID id, TimeOffset offset);
+    Ramp(ElementID id, TimeOffset offset) : mOffset(offset), mID(id) {}
     void deliver_goods(Time time);
     TimeOffset get_delivery_interval() const;
     ElementID get_ID() const;
@@ -63,6 +71,9 @@ class Worker : PackageSender, IPackageReceiver
 {
 private:
     Time mTime;
+    TimeOffset mOffset;
+    ElementID mID;
+    std::optional<Package> mWorkerBuffer;
 public:
     Worker(ElementID id, TimeOffset offset, std::unique_ptr<PackageQueue> queue_ptr);
     void do_work(Time time);

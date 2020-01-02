@@ -4,23 +4,6 @@
 #include "storage_types.hpp"
 
 Package PackageQueue::pop() {
-    /*
-    if(get_queue_type()==PackageQueueType::FIFO)
-    {
-        Package& pck = mQueue.front();
-        mQueue.pop_front();
-
-        return pck;
-    }
-    else
-    {
-        Package& pck = mQueue.back();
-        mQueue.pop_back();
-
-        return pck;
-    }
-
-    */
     Package pck;
     switch(get_queue_type())
     {
