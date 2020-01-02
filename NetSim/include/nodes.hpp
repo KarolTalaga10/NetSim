@@ -9,6 +9,10 @@
 #include <functional>
 #include "helpers.hpp"
 
+enum class NodeIdentity{
+    RAMP, WORKER, STOREHOUSE
+};
+
 class IPackageReceiver
 {
     using iterator = std::list<Package>::const_iterator;
@@ -30,9 +34,9 @@ class ReceiverPreferences
 private:
     preferences_t mPreferences;
     void rebuild_pref();
-    std::function<double(void)> mRng;
+    ProbabilityGenerator mRng;
 public:
-    ReceiverPreferences(std::function<double(void)> rng = get_random) : mRng(std::move(rng)) {}
+    ReceiverPreferences(ProbabilityGenerator rng = get_random) : mRng(std::move(rng)) {}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver(); //TODO troche nie wiem jak zaimplementowac ta dystrybuantę
@@ -50,7 +54,7 @@ private:
 public:
     ReceiverPreferences mReceiverPreferences;
     void send_package();
-    std::optional<Package> get_sending_buffer() const; //TODO chuj wie jak to działa
+    std::optional<Package> get_sending_buffer() {return std::move(mBuffer);}; //TODO chuj wie jak to działa
 protected:
     void push_package(Package&& pck);
 };
@@ -61,7 +65,7 @@ private:
     TimeOffset mOffset;
     ElementID mID;
 public:
-    Ramp(ElementID id, TimeOffset offset) : mOffset(offset), mID(id) {}
+    Ramp(ElementID id, TimeOffset di) : mOffset(di), mID(id) {}
     void deliver_goods(Time time);
     TimeOffset get_delivery_interval()  const {return mOffset; }
     ElementID get_ID()                  const { return mID;    }
