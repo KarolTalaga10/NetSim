@@ -74,12 +74,13 @@ public:
 class Worker : PackageSender, IPackageReceiver
 {
 private:
-    Time mTime;
+    Time mTime = 0;
     TimeOffset mOffset;
     ElementID mID;
     std::optional<Package> mWorkerBuffer;
+    std::unique_ptr<PackageQueue> mUniquePtr;
 public:
-    Worker(ElementID id, TimeOffset offset, std::unique_ptr<PackageQueue> queue_ptr);
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> queue_ptr);
     void do_work(Time time);
     TimeOffset get_processing_duration()     const { return mOffset; }
     Time get_package_processing_start_time() const { return mTime;   }
