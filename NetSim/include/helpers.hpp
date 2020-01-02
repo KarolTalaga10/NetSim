@@ -2,7 +2,11 @@
 #define NETSIM_HELPERS_HPP
 
 #include <cstdlib>
-double get_random() { return (double)rand()/RAND_MAX; }
+#include <iostream>
+#include <random>
+#include <ctime>
+
+double get_random();
 
 
 
