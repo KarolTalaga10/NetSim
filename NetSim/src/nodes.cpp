@@ -9,11 +9,19 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver* r)
 {
     mPreferences.erase(r);
     rebuild_pref();
-}/*
+}
 IPackageReceiver* ReceiverPreferences::choose_receiver()
 {
-
-}*/
+    double number = mRng();
+    double sum = 0;
+    for (const auto &item: mPreferences)
+    {
+        sum = sum + item.second;
+        if(number <= sum)
+            return item.first;
+    }
+    return mPreferences.end()->first;
+}
 void ReceiverPreferences::rebuild_pref()
 {
     double sum = 0;

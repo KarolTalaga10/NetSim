@@ -7,5 +7,7 @@
 int main() {
     std::cout << "Hello, World!" << std::endl;
     std::cout << get_random() << std::endl;
+
+
     return 0;
 }
