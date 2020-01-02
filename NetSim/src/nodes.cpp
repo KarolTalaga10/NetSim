@@ -48,9 +48,9 @@ Worker::Worker(ElementID id, TimeOffset offset, std::unique_ptr<PackageQueue> qu
 void Worker::do_work(Time time)
 {
     mTime = time;
-}/*
-Storehouse::Storehouse(ElementID id, std::unique_ptr<PackageQueue> queue_ptr)
-{
-
 }
-*/
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr)
+{
+    mID = id;
+    mUniquePtr = std::move(stockpile_ptr);
+}

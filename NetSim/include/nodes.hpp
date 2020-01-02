@@ -50,7 +50,7 @@ private:
 public:
     ReceiverPreferences mReceiverPreferences;
     void send_package();
-    std::optional<Package> get_sending_buffer();
+    std::optional<Package> get_sending_buffer() const; //TODO chuj wie jak to działa
 protected:
     void push_package(Package&& pck);
 };
@@ -83,7 +83,11 @@ public:
 
 class Storehouse : IPackageReceiver
 {
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> queue_ptr);
+private:
+    std::unique_ptr<IPackageStockpile> mUniquePtr;
+    ElementID mID;
+public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr);
 };
 
 
