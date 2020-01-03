@@ -2,7 +2,7 @@
 
 void ReceiverPreferences::add_receiver(IPackageReceiver* r)
 {
-    mPreferences.emplace(std::make_pair(r,0.0)); // get_random()
+    mPreferences.emplace(std::make_pair(r,1.0)); // get_random()
     rebuild_pref();
 }
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r)
@@ -85,6 +85,6 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpil
 
 void Storehouse::receive_package(Package&& pck)
 {
-    mStorage.push_back(std::move(pck));
+    mUniquePtr->push(std::move(pck));
 }
 

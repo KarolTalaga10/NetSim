@@ -91,17 +91,17 @@ class Storehouse : public IPackageReceiver
 private:
     std::unique_ptr<IPackageStockpile> mUniquePtr;
     ElementID mID;
-    std::list<Package> mStorage;
 
 public:
+    Storehouse(ElementID id) : mID(id) {}
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr);
     ElementID get_ID() const override { return mID; }
     void receive_package(Package&& pck) override;
 
-    iterator begin() const override { return  mStorage.begin(); }
-    iterator end() const override   { return  mStorage.end()  ; }
-    iterator cbegin()const override { return  mStorage.cbegin() ; }
-    iterator cend() const override  { return  mStorage.cend() ; }
+    iterator begin() const override { return mUniquePtr->begin() ; }
+    iterator end() const override   { return mUniquePtr->end()   ; }
+    iterator cbegin()const override { return mUniquePtr->cbegin(); }
+    iterator cend() const override  { return mUniquePtr->cend()  ; }
 };
 
 
