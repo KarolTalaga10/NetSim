@@ -57,7 +57,7 @@ void Ramp::deliver_goods(Time time)
         send_package();
     }
 }
-Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> queue_ptr)
+Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> queue_ptr)
 {
     mID = id; mOffset = pd;
     mUniquePtr = std::move(queue_ptr);
@@ -73,9 +73,10 @@ void Worker::do_work(Time time)
         }
         mWorkerBuffer.emplace(mUniquePtr->pop());
         send_package();
+        mTime = time;
     }
    
-    mTime = time;
+
 }
 Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr)
 {
@@ -91,4 +92,5 @@ void Storehouse::receive_package(Package&& pck)
 void Worker::receive_package(Package&& pck)
 {
     mUniquePtr->push(std::move(pck));
+
 }
