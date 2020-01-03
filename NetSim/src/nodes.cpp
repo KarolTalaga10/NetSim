@@ -88,3 +88,7 @@ void Storehouse::receive_package(Package&& pck)
     mUniquePtr->push(std::move(pck));
 }
 
+void Worker::receive_package(Package&& pck)
+{
+    mUniquePtr->push(std::move(pck));
+}

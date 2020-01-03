@@ -84,6 +84,15 @@ public:
     void do_work(Time time);
     TimeOffset get_processing_duration()     const { return mOffset; }
     Time get_package_processing_start_time() const { return mTime;   }
+
+    ElementID get_ID() const override { return mID; }
+    void receive_package(Package&& pck) override;
+
+    iterator begin() const override { return  mUniquePtr->begin(); }
+    iterator end() const override   { return  mUniquePtr->end()  ; }
+    iterator cbegin()const override { return  mUniquePtr->cbegin() ; }
+    iterator cend() const override  { return  mUniquePtr->cend() ; }
+
 };
 
 class Storehouse : public IPackageReceiver
