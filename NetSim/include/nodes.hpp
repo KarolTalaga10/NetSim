@@ -15,10 +15,10 @@ enum class NodeIdentity{
 
 class IPackageReceiver
 {
-    using iterator = std::list<Package>::const_iterator;
 public:
+    using iterator = std::list<Package>::const_iterator;
     virtual void receive_package(Package&& pck) = 0;
-    virtual void get_ID(ElementID id) = 0;
+    virtual ElementID get_ID() = 0;
 
     virtual iterator begin() const = 0;
     virtual iterator end() const = 0;
@@ -86,13 +86,24 @@ public:
     Time get_package_processing_start_time() const { return mTime;   }
 };
 
-class Storehouse : IPackageReceiver
+class Storehouse : public IPackageReceiver
 {
 private:
     std::unique_ptr<IPackageStockpile> mUniquePtr;
     ElementID mID;
+    std::list<Package> mStorage;
+
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr);
+    std::list<Package> get_storage() {return mStorage;}
+    void receive_package(Package&& pck) override;
+    ElementID get_ID() override;
+    std::list<Package> check_storage();
+
+    iterator begin() const override { return mStorage.begin();  }
+    iterator end() const override   { return mStorage.end();    }
+    iterator cbegin()const override { return mStorage.cbegin(); }
+    iterator cend() const override  { return mStorage.cend();   }
 };
 
 

@@ -81,3 +81,13 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpil
     mID = id;
     mUniquePtr = std::move(stockpile_ptr);
 }
+
+
+
+ElementID Storehouse::get_ID() {
+    return mID;
+}
+std::list<Package> Storehouse::check_storage() {
+    return mStorage;
+}
+
