@@ -40,7 +40,7 @@ void PackageSender::send_package()
     if(mBuffer)
     {
         mReceiverPreferences.choose_receiver()->receive_package(std::move(*mBuffer));
-        std::cout<< (*mBuffer).get_id()<<std::endl;
+        std::cout<<"Co bylo w buforze: "<< (*mBuffer).get_id()<<std::endl;
         mBuffer.reset();
     }
 }

@@ -2,7 +2,7 @@
 #include "gmock/gmock.h"
 
 #include "storage_types.hpp"
-
+#include "package.hpp"
 
 TEST(PackageQueueInitIsEmptyLIFOTest, IsEmptyTest) {
 PackageQueue packageQueue(PackageQueueType::LIFO);
@@ -92,3 +92,11 @@ packageQueue.pop();
 EXPECT_EQ(1, packageQueue.size());
 }
 
+TEST(PackageQueuePopFIFOTest,IDtest){
+    Package pack1;
+    PackageQueue packageQueue(PackageQueueType::FIFO);
+    packageQueue.push(static_cast<Package &&>(pack1));
+    packageQueue.pop();
+    Package pack2;
+    EXPECT_EQ(2, pack2.get_id());
+}
