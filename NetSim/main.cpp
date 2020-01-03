@@ -20,12 +20,18 @@ int main() {
 
     r.deliver_goods(2);
     std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
-    std::cout<< "2 z kontenera: " <<s.cend()->get_id()<< std::endl;
+    std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
     r.deliver_goods(3);
     std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
-    std::cout<< "2 z kontenera: " <<s.cend()->get_id()<< std::endl;
+    std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
     r.deliver_goods(4);
     std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
-    std::cout<< "2 z kontenera: " <<s.cend()->get_id()<< std::endl;
+    std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
+    r.deliver_goods(5);
+    std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
+    std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
+    r.deliver_goods(6);
+    std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
+    std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
     return 0;
 }

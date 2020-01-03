@@ -98,5 +98,5 @@ TEST(PackageQueuePopFIFOTest,IDtest){
     packageQueue.push(static_cast<Package &&>(pack1));
     packageQueue.pop();
     Package pack2;
-    EXPECT_EQ(2, pack2.get_id());
+    EXPECT_EQ(1, pack2.get_id());
 }
