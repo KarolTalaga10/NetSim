@@ -40,6 +40,7 @@ void PackageSender::send_package()
     if(mBuffer)
     {
         mReceiverPreferences.choose_receiver()->receive_package(std::move(*mBuffer));
+        std::cout<< (*mBuffer).get_id()<<std::endl;
         mBuffer.reset();
     }
 }
@@ -53,7 +54,7 @@ void Ramp::deliver_goods(Time time)
     {
         Package pkc;
         push_package(std::move(pkc));
-        //send_package();
+        send_package();
     }
 }
 Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<PackageQueue> queue_ptr)
@@ -71,7 +72,7 @@ void Worker::do_work(Time time)
             mWorkerBuffer.reset();
         }
         mWorkerBuffer.emplace(mUniquePtr->pop());
-        //send_package();
+        send_package();
     }
    
     mTime = time;
@@ -82,8 +83,8 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpil
     mUniquePtr = std::move(stockpile_ptr);
 }
 
-ElementID Storehouse::get_ID() const {
-    return mID;
+void Storehouse::receive_package(Package&& pck)
+{
+    mStorage.push_back(std::move(pck));
 }
-
 

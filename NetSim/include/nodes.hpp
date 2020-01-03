@@ -95,9 +95,8 @@ private:
 
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr);
-    std::list<Package> get_storage() const {return mStorage;}
+    ElementID get_ID() const override { return mID; }
     void receive_package(Package&& pck) override;
-    ElementID get_ID() const override;
 
     iterator begin() const override { return  mStorage.begin(); }
     iterator end() const override   { return  mStorage.end()  ; }
