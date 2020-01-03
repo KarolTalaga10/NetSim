@@ -59,7 +59,7 @@ protected:
     void push_package(Package&& pck);
 };
 
-class Ramp : PackageSender
+class Ramp : public PackageSender
 {
 private:
     TimeOffset mOffset;
@@ -71,7 +71,7 @@ public:
     ElementID get_ID()                  const { return mID;    }
 };
 
-class Worker : PackageSender, IPackageReceiver
+class Worker : public PackageSender, public IPackageReceiver
 {
 private:
     Time mTime = 0;
