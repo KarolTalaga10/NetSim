@@ -39,6 +39,7 @@ public:
     ReceiverPreferences(ProbabilityGenerator rng = get_random) : mRng(std::move(rng)) {}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
+    double get_probability(IPackageReceiver *key) {return mPreferences[key];}
     IPackageReceiver* choose_receiver(); //TODO troche nie wiem jak zaimplementowac ta dystrybuantę
 
     iterator begin()              { return mPreferences.begin();  }
