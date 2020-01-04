@@ -16,7 +16,7 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
     double sum = 0;
     for (const auto &item: mPreferences)
     {
-        sum = sum + item.second;
+        sum += item.second;
         if(number <= sum)
             return item.first;
     }
@@ -25,7 +25,7 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
 void ReceiverPreferences::rebuild_pref()
 {
     double sum = 0;
-    for(auto& item : mPreferences)
+    for(const auto& item : mPreferences)
     {
         sum+= item.second;
     }
