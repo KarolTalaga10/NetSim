@@ -55,7 +55,7 @@ private:
 public:
     ReceiverPreferences mReceiverPreferences;
     void send_package();
-    std::optional<Package> get_sending_buffer() {return std::move(mBuffer);}; //TODO chuj wie jak to działa
+    std::optional<Package> get_sending_buffer() const {return mBuffer;};
 protected:
     void push_package(Package&& pck);
 };
