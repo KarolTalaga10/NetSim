@@ -131,7 +131,7 @@ TEST(StorehouseTest, CorrectReceivingTest) {
     r.send_package();
     EXPECT_EQ(2, s.cend()->get_id());
 }
-
+/*
 TEST(ReceiverPreferencesTest, CorectReceiver) {
     PackageQueue q1(PackageQueueType::FIFO);
 	PackageQueue q2(PackageQueueType::LIFO);
@@ -165,17 +165,26 @@ TEST(ReceiverPreferencesTest, CorectReceiver) {
 
     EXPECT_EQ(rec, pref.choose_receiver());
 }
-/*
+*/
+
 TEST(ReceiverPreferences, ProbabilityScalingTest) {
     std::function<double(void)> rng = your_num;
     ReceiverPreferences pref(rng);
+    PackageQueue q1(PackageQueueType::FIFO);
+    PackageQueue q2(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
+    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(q2);
+    Worker w1(1, 1, std::move(ptr1));
+    Worker w2(2, 2, std::move(ptr2));
     IPackageReceiver* r1;
     IPackageReceiver* r2;
+    r1 = &w1;
+    r2 = &w2;
     pref.add_receiver(r1);
     pref.add_receiver(r2);
-    EXPECT_EQ(0.5, pref.get_probability(r1));
+    EXPECT_EQ(0.5, pref.get_probability(r2));
 }
-*/
+
 TEST(WorkerBuffer, PackageReceivedInBuffer) {
     PackageQueue q(PackageQueueType::FIFO);
     std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q);
