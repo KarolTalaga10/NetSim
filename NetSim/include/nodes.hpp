@@ -17,7 +17,7 @@ class IPackageReceiver
 {
 public:
     using iterator = std::list<Package>::const_iterator;
-    virtual void receive_package(Package&& pck) = 0;
+    virtual void receive_package(Package&& p) = 0;
     virtual ElementID get_ID() const = 0;
 
     virtual iterator begin() const = 0;
@@ -36,11 +36,11 @@ private:
     void rebuild_pref();
     ProbabilityGenerator mRng;
 public:
-    ReceiverPreferences(ProbabilityGenerator rng = get_random) : mRng(std::move(rng)) {}
+    ReceiverPreferences(ProbabilityGenerator pg = get_random) : mRng(std::move(pg)) {}
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     double get_probability(IPackageReceiver *key) {return mPreferences[key];}
-    IPackageReceiver* choose_receiver(); //TODO troche nie wiem jak zaimplementowac ta dystrybuantę
+    IPackageReceiver* choose_receiver();
 
     iterator begin()              { return mPreferences.begin();  }
     iterator end()                { return mPreferences.end();    }
@@ -53,7 +53,7 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
-    ReceiverPreferences mReceiverPreferences;
+    ReceiverPreferences receiver_preferences_;
     void send_package();
     std::optional<Package> get_sending_buffer() const {return mBuffer;};
 protected:
@@ -67,7 +67,7 @@ private:
     ElementID mID;
 public:
     Ramp(ElementID id, TimeOffset di) : mOffset(di), mID(id) {}
-    void deliver_goods(Time time);
+    void deliver_goods(Time t);
     TimeOffset get_delivery_interval()  const {return mOffset; }
     ElementID get_ID()                  const { return mID;    }
 };
@@ -82,7 +82,7 @@ private:
     std::unique_ptr<IPackageQueue> mUniquePtr;
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> queue_ptr);
-    void do_work(Time time);
+    void do_work(Time t);
     TimeOffset get_processing_duration()     const { return mOffset; }
     Time get_package_processing_start_time() const { return mTime;   }
     ElementID get_ID_from_buffer() const          { return mWorkerBuffer->get_id();}
@@ -104,7 +104,7 @@ private:
 
 public:
     Storehouse(ElementID id) : mID(id) {}
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr);
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
     ElementID get_ID() const override { return mID; }
     void receive_package(Package&& pck) override;
 

@@ -12,7 +12,7 @@ int main() {
     std::unique_ptr<IPackageStockpile> ptr = std::make_unique<PackageQueue>(q);
     Storehouse s(1, std::move(ptr));
     Ramp r(1,2);
-    r.mReceiverPreferences.add_receiver(&s);
+    r.receiver_preferences_.add_receiver(&s);
     r.deliver_goods(0);
     std::cout<< "Pierwszy z kontenera: " <<s.cbegin()->get_id()<< std::endl;
     r.deliver_goods(1);

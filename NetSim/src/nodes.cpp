@@ -39,7 +39,7 @@ void PackageSender::send_package()
 {
     if(mBuffer)
     {
-        mReceiverPreferences.choose_receiver()->receive_package(std::move(*mBuffer));
+        receiver_preferences_.choose_receiver()->receive_package(std::move(*mBuffer));
         //std::cout<<"Co bylo w buforze: "<< (*mBuffer).get_id()<<std::endl;
         mBuffer.reset();
     }
@@ -48,9 +48,9 @@ void PackageSender::push_package(Package&& pck)
 {
     mBuffer.emplace(std::move(pck));
 }
-void Ramp::deliver_goods(Time time)
+void Ramp::deliver_goods(Time t)
 {
-    if(time % mOffset == 0)
+    if(t % mOffset == 0)
     {
         Package pkc;
         push_package(std::move(pkc));
@@ -62,9 +62,9 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> queue
     mID = id; mOffset = pd;
     mUniquePtr = std::move(queue_ptr);
 }
-void Worker::do_work(Time time)
+void Worker::do_work(Time t)
 {
-    if((time-mTime)% mOffset == 0)
+    if((t-mTime)% mOffset == 0)
     {
         if(mWorkerBuffer)
         {
@@ -73,20 +73,20 @@ void Worker::do_work(Time time)
         }
         mWorkerBuffer.emplace(mUniquePtr->pop());
         //send_package();
-        mTime = time;
+        mTime = t;
     }
    
 
 }
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> stockpile_ptr)
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d)
 {
     mID = id;
-    mUniquePtr = std::move(stockpile_ptr);
+    mUniquePtr = std::move(d);
 }
 
-void Storehouse::receive_package(Package&& pck)
+void Storehouse::receive_package(Package&& p)
 {
-    mUniquePtr->push(std::move(pck));
+    mUniquePtr->push(std::move(p));
 }
 
 void Worker::receive_package(Package&& pck)

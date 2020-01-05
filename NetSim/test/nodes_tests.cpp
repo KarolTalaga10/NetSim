@@ -51,7 +51,7 @@ TEST(PackageSenderTest, EmptyBufferTest) { //wysyłanie półproduktu: czy po wy
     //-----------------------------------------------
     // make your own preferences
     //e.x. r1.mReceiverPreferences.add_receiver(&w1);
-    r1.mReceiverPreferences.add_receiver(&w1);
+    r1.receiver_preferences_.add_receiver(&w1);
     //-----------------------------------------------
     // test logic
     r1.deliver_goods(0);
@@ -78,7 +78,7 @@ TEST(RampTest, DeliveryTest) { //dostawa: czy dostawa odbywa się we właściwej
     //-----------------------------------------------
     // make your own preferences
     //e.x. r1.mReceiverPreferences.add_receiver(&w1);
-    r2.mReceiverPreferences.add_receiver(&w1);
+    r2.receiver_preferences_.add_receiver(&w1);
     r2.deliver_goods(0);
     r2.send_package();
     r2.deliver_goods(1);
@@ -107,7 +107,7 @@ TEST(RampTest, NotDeliveryTest) { //dostawa: czy dostawa odbywa się we właści
     //-----------------------------------------------
     // make your own preferences
     //e.x. r1.mReceiverPreferences.add_receiver(&w1);
-    r2.mReceiverPreferences.add_receiver(&w1);
+    r2.receiver_preferences_.add_receiver(&w1);
     r2.deliver_goods(0);
     r2.send_package();
     r2.deliver_goods(1);
@@ -122,7 +122,7 @@ TEST(StorehouseTest, CorrectReceivingTest) {
     std::unique_ptr<IPackageStockpile> ptr = std::make_unique<PackageQueue>(q);
     Storehouse s(1, std::move(ptr));
     Ramp r(1,2);
-    r.mReceiverPreferences.add_receiver(&s);
+    r.receiver_preferences_.add_receiver(&s);
     r.deliver_goods(0);
     r.send_package();
     r.deliver_goods(1);
@@ -183,8 +183,8 @@ TEST(WorkerBuffer, PackageReceivedInBuffer) {
     Worker w(1, 2,std::move(ptr1));
     Ramp r(1,2);
     Storehouse s(1, std::move(ptr2));
-    r.mReceiverPreferences.add_receiver(&w);
-    w.mReceiverPreferences.add_receiver(&s);
+    r.receiver_preferences_.add_receiver(&w);
+    w.receiver_preferences_.add_receiver(&s);
     r.deliver_goods(0);
     r.send_package();
     w.do_work(0);
@@ -208,8 +208,8 @@ TEST(WorkerTime, CorrectTimeProcessingPackage) { //wykonywanie pracy: czy robotn
     Worker w(1, 2,std::move(ptr1));
     Ramp r(1,2);
     Storehouse s(1, std::move(ptr2));
-    r.mReceiverPreferences.add_receiver(&w);
-    w.mReceiverPreferences.add_receiver(&s);
+    r.receiver_preferences_.add_receiver(&w);
+    w.receiver_preferences_.add_receiver(&s);
     r.deliver_goods(0);
     r.send_package();
     w.do_work(0);
