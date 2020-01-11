@@ -17,8 +17,8 @@ private:
 public:
     Package() {mID = give_id(); assigned_IDs.insert(get_id());};
     ~Package() {assigned_IDs.erase(mID); freed_IDs.insert(mID);}
-    //Package(const Package& pcg) = default;
-    Package(Package&& pcg):mID(std::move(pcg.mID)) {};
+    Package(const Package& pcg) = default;
+    Package(const Package&& pcg):mID(std::move(pcg.mID)) {};
     Package& operator = (Package&& pcg) {
         freed_IDs.emplace(mID);
         mID = std::move(pcg.mID);

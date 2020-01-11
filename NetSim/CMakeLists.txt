@@ -24,8 +24,8 @@ add_executable(main__debug ${SOURCE_FILES} main.cpp)
 set(SOURCES_FILES_TESTS
         #test/package_test.cpp
         #test/storage_tests.cpp
-        #test/nodes_tests.cpp
-        test/test_nodes.cpp
+        test/nodes_tests.cpp
+        #test/test_nodes.cpp
         #test/test_package.cpp
         #test/test_storage_types.cpp
         )
