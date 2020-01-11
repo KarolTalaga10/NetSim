@@ -56,8 +56,9 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
-    PackageSender(PackageSender&& ) = default;
     ReceiverPreferences receiver_preferences_;
+    PackageSender(PackageSender&& ) = default;
+    explicit PackageSender() : mBuffer() , receiver_preferences_() {};
     void send_package();
     std::optional<Package>& get_sending_buffer() {return mBuffer;};
 protected:
@@ -70,7 +71,7 @@ private:
     TimeOffset mOffset;
     ElementID mID;
 public:
-    Ramp(ElementID id, TimeOffset di) : mOffset(di), mID(id) {};
+    Ramp(ElementID id, TimeOffset di) :PackageSender(), mOffset(di), mID(id) {};
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval()  const {return mOffset; }
     ElementID get_id()                  const { return mID;    }
