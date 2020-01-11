@@ -18,9 +18,9 @@ enum class NodeIdentity{
 class IPackageReceiver
 {
 public:
-    using iterator = std::list<Package>::const_iterator;
+    using iterator =IPackageStockpile::const_iterator;
     virtual void receive_package(Package&& p) = 0;
-    virtual ElementID get_ID() const = 0;
+    virtual ElementID get_id() const = 0;
 
     virtual iterator begin() const = 0;
     virtual iterator end() const = 0;
@@ -56,7 +56,7 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
-   // PackageSender(PackageSender&& pck) = default;
+    PackageSender(PackageSender&& ) = default;
     ReceiverPreferences receiver_preferences_;
     void send_package();
     std::optional<Package>& get_sending_buffer() {return mBuffer;};
@@ -70,10 +70,10 @@ private:
     TimeOffset mOffset;
     ElementID mID;
 public:
-    Ramp(ElementID id, TimeOffset di) : mOffset(di), mID(id) {}
+    Ramp(ElementID id, TimeOffset di) : mOffset(di), mID(id) {};
     void deliver_goods(Time t);
     TimeOffset get_delivery_interval()  const {return mOffset; }
-    ElementID get_ID()                  const { return mID;    }
+    ElementID get_id()                  const { return mID;    }
 };
 
 class Worker : public PackageSender, public IPackageReceiver
@@ -90,7 +90,7 @@ public:
     TimeOffset get_processing_duration()     const { return mOffset; }
     Time get_package_processing_start_time() const { return mTime;   }
     ElementID get_ID_from_buffer() const          { return mWorkerBuffer->get_id();}
-    ElementID get_ID() const override { return mID; }
+    ElementID get_id()const override { return mID; }
     void receive_package(Package&& pck) override;
 
     iterator begin() const override { return  mUniquePtr->begin(); }
@@ -109,7 +109,7 @@ private:
 public:
     Storehouse(ElementID id) : mID(id) {}
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
-    ElementID get_ID() const override { return mID; }
+    ElementID get_id() const override { return mID; }
     void receive_package(Package&& pck) override;
 
     iterator begin() const override { return mUniquePtr->begin() ; }
