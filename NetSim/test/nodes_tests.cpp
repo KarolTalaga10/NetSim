@@ -118,7 +118,7 @@ TEST(StorehouseTest, CorrectReceivingTest) {
     r.send_package();
     EXPECT_EQ(2, s.cend()->get_id());
 }
-/*
+
 TEST(ReceiverPreferencesTest, CorectReceiver) {
     PackageQueue q1(PackageQueueType::FIFO);
 	PackageQueue q2(PackageQueueType::LIFO);
@@ -141,18 +141,19 @@ TEST(ReceiverPreferencesTest, CorectReceiver) {
     std::function<double(void)> rng = your_num;
     ReceiverPreferences pref(rng);
 
-    IPackageReceiver* rec;
+    IPackageReceiver* rec1;
+    IPackageReceiver* rec2;
 
-    rec = &w1;
+    rec1 = &w1;
+    rec2 = &w2;
 
     pref.add_receiver(&w1);
     pref.add_receiver(&w2);
-    pref.add_receiver(&s1);
     // test logic
 
-    EXPECT_EQ(rec, pref.choose_receiver());
+    EXPECT_EQ(__min(rec1, rec2), pref.choose_receiver());
 }
-*/
+
 
 TEST(ReceiverPreferences, ProbabilityScalingTest) {
     std::function<double(void)> rng = your_num;
