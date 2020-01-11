@@ -7,7 +7,7 @@
 int main() {
     //std::cout << "Hello, World!" << std::endl;
     //std::cout << get_random() << std::endl;
-
+/*
     PackageQueue q(PackageQueueType::FIFO);
     std::unique_ptr<IPackageStockpile> ptr = std::make_unique<PackageQueue>(q);
     Storehouse s(1, std::move(ptr));
@@ -34,4 +34,5 @@ int main() {
     std::cout<< "1 z kontenera: " <<s.cbegin()->get_id()<< std::endl;
     std::cout<< "Ostatni z kontenera: " <<s.cend()->get_id()<< std::endl;
     return 0;
+    */
 }

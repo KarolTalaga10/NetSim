@@ -4,35 +4,35 @@
 
 void ReceiverPreferences::add_receiver(IPackageReceiver* r)
 {
-    mPreferences.emplace(std::make_pair(r,1.0)); // get_random()
+    preferences_.emplace(std::make_pair(r,1.0)); // get_random()
     rebuild_pref();
 }
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r)
 {
-    mPreferences.erase(r);
+    preferences_.erase(r);
     rebuild_pref();
 }
 IPackageReceiver* ReceiverPreferences::choose_receiver()
 {
     double number = mRng();
     double sum = 0;
-    for (const auto &item: mPreferences)
+    for (const auto &item: preferences_)
     {
         sum += item.second;
         if(number <= sum)
             return item.first;
     }
-    return mPreferences.end()->first;
+    return preferences_.end()->first;
 }
 void ReceiverPreferences::rebuild_pref()
 {
     double sum = 0;
-    for(const auto& item : mPreferences)
+    for(const auto& item : preferences_)
     {
         sum+= item.second;
     }
 
-    for(auto& item : mPreferences)
+    for(auto& item : preferences_)
     {
         item.second /= sum;
     }
@@ -52,7 +52,7 @@ void PackageSender::push_package(Package&& pck)
 }
 void Ramp::deliver_goods(Time t)
 {
-    if(t % mOffset == 0)
+    if(t % mOffset == 1)
     {
         Package pkc;
         push_package(std::move(pkc));
@@ -66,7 +66,7 @@ Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> queue
 }
 void Worker::do_work(Time t)
 {
-    if((t-mTime)% mOffset == 0)
+    if((t-mTime)% mOffset - 1 == 0)
     {
         if(mWorkerBuffer)
         {

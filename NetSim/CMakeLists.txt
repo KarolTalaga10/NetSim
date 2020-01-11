@@ -22,13 +22,16 @@ add_executable(main__debug ${SOURCE_FILES} main.cpp)
 # == Unit testing using Google Testing Framework ==
 
 set(SOURCES_FILES_TESTS
-        test/package_test.cpp
-        test/storage_tests.cpp
-        test/nodes_tests.cpp
+        #test/package_test.cpp
+        #test/storage_tests.cpp
+        #test/nodes_tests.cpp
+        test/test_nodes.cpp
+        #test/test_package.cpp
+        #test/test_storage_types.cpp
         )
 
 add_executable(sol__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
-
+target_compile_definitions(sol__test PUBLIC EXERCISE_ID=EXERCISE_ID_NODES)
 target_include_directories(sol__test PUBLIC
         googletest-master/googlemock/include
         googletest-master/googletest/include

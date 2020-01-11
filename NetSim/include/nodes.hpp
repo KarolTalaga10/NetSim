@@ -34,20 +34,21 @@ class ReceiverPreferences
     using const_iterator = preferences_t::const_iterator;
     using iterator = preferences_t::iterator;
 private:
-    preferences_t mPreferences;
+    preferences_t preferences_;
     void rebuild_pref();
     ProbabilityGenerator mRng;
 public:
-    ReceiverPreferences(ProbabilityGenerator pg = get_random) : mRng(std::move(pg)) {}
+    //ReceiverPreferences(ProbabilityGenerator pg = get_random) : mRng(std::move(pg)) {}
+    ReceiverPreferences(ProbabilityGenerator probability_function = probability_generator): mRng(std::move(probability_function)) {};
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
-    double get_probability(IPackageReceiver *key) {return mPreferences[key];}
+    double get_probability(IPackageReceiver *key) {return preferences_[key];}
     IPackageReceiver* choose_receiver();
-
-    iterator begin()              { return mPreferences.begin();  }
-    iterator end()                { return mPreferences.end();    }
-    const_iterator cbegin() const { return mPreferences.cbegin(); }
-    const_iterator cend()   const { return mPreferences.cend();   }
+    const preferences_t& get_preferences() const { return preferences_; }
+    iterator begin()              { return preferences_.begin();  }
+    iterator end()                { return preferences_.end();    }
+    const_iterator cbegin() const { return preferences_.cbegin(); }
+    const_iterator cend()   const { return preferences_.cend();   }
 };
 
 class PackageSender
@@ -55,9 +56,10 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
+   // PackageSender(PackageSender&& pck) = default;
     ReceiverPreferences receiver_preferences_;
     void send_package();
-    std::optional<Package> get_sending_buffer() const {return mBuffer;};
+    std::optional<Package>& get_sending_buffer() {return mBuffer;};
 protected:
     void push_package(Package&& pck);
 };

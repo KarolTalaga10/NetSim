@@ -34,14 +34,10 @@ TEST(FunctionalityNameTest, TestingCase) {
  */
 
 TEST(PackageSenderTest, EmptyBufferTest) { //wysyłanie półproduktu: czy po wysłaniu bufor jest pusty?
-    PackageQueue q1(PackageQueueType::FIFO);
-    PackageQueue q2(PackageQueueType::LIFO);
-    PackageQueue q3(PackageQueueType::FIFO);
-    PackageQueue q4(PackageQueueType::LIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
-    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(q2);
-    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(q3);
-    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(q4);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
     Storehouse s1(1, std::move(ptr3));
     Storehouse s2(2, std::move(ptr4));
     Ramp r1(1, 1);
@@ -61,14 +57,10 @@ TEST(PackageSenderTest, EmptyBufferTest) { //wysyłanie półproduktu: czy po wy
 }
 
 TEST(RampTest, DeliveryTest) { //dostawa: czy dostawa odbywa się we właściwej turze? czy półprodukt trafia od razu do bufora?
-    PackageQueue q1(PackageQueueType::FIFO);
-    PackageQueue q2(PackageQueueType::LIFO);
-    PackageQueue q3(PackageQueueType::FIFO);
-    PackageQueue q4(PackageQueueType::LIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
-    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(q2);
-    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(q3);
-    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(q4);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
     Storehouse s1(1, std::move(ptr3));
     Storehouse s2(2, std::move(ptr4));
     Ramp r1(1, 1);
@@ -90,14 +82,10 @@ TEST(RampTest, DeliveryTest) { //dostawa: czy dostawa odbywa się we właściwej
 }
 
 TEST(RampTest, NotDeliveryTest) { //dostawa: czy dostawa odbywa się we właściwej turze? czy półprodukt trafia od razu do bufora?
-    PackageQueue q1(PackageQueueType::FIFO);
-    PackageQueue q2(PackageQueueType::LIFO);
-    PackageQueue q3(PackageQueueType::FIFO);
-    PackageQueue q4(PackageQueueType::LIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
-    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(q2);
-    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(q3);
-    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(q4);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageStockpile> ptr3 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
+    std::unique_ptr<IPackageStockpile> ptr4 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
     Storehouse s1(1, std::move(ptr3));
     Storehouse s2(2, std::move(ptr4));
     Ramp r1(1, 1);
@@ -118,8 +106,7 @@ TEST(RampTest, NotDeliveryTest) { //dostawa: czy dostawa odbywa się we właści
 }
 
 TEST(StorehouseTest, CorrectReceivingTest) {
-    PackageQueue q(PackageQueueType::FIFO);
-    std::unique_ptr<IPackageStockpile> ptr = std::make_unique<PackageQueue>(q);
+    std::unique_ptr<IPackageStockpile> ptr = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
     Storehouse s(1, std::move(ptr));
     Ramp r(1,2);
     r.receiver_preferences_.add_receiver(&s);
@@ -170,10 +157,8 @@ TEST(ReceiverPreferencesTest, CorectReceiver) {
 TEST(ReceiverPreferences, ProbabilityScalingTest) {
     std::function<double(void)> rng = your_num;
     ReceiverPreferences pref(rng);
-    PackageQueue q1(PackageQueueType::FIFO);
-    PackageQueue q2(PackageQueueType::LIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
-    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(q2);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageQueue> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
     Worker w1(1, 1, std::move(ptr1));
     Worker w2(2, 2, std::move(ptr2));
     IPackageReceiver* r1;
@@ -186,9 +171,8 @@ TEST(ReceiverPreferences, ProbabilityScalingTest) {
 }
 
 TEST(WorkerBuffer, PackageReceivedInBuffer) {
-    PackageQueue q(PackageQueueType::FIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q);
-    std::unique_ptr<IPackageStockpile> ptr2 = std::make_unique<PackageQueue>(q);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageStockpile> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
     Worker w(1, 2,std::move(ptr1));
     Ramp r(1,2);
     Storehouse s(1, std::move(ptr2));
@@ -210,10 +194,8 @@ TEST(WorkerBuffer, PackageReceivedInBuffer) {
 }
 
 TEST(WorkerTime, CorrectTimeProcessingPackage) { //wykonywanie pracy: czy robotnik przetwarza półprodukt odpowiednią liczbę tur? czy przekazuje dalej odpowiedni półprodukt?
-    PackageQueue q1(PackageQueueType::FIFO);
-    PackageQueue q2(PackageQueueType::FIFO);
-    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(q1);
-    std::unique_ptr<IPackageStockpile> ptr2 = std::make_unique<PackageQueue>(q2);
+    std::unique_ptr<IPackageQueue> ptr1 = std::make_unique<PackageQueue>(PackageQueueType::LIFO);
+    std::unique_ptr<IPackageStockpile> ptr2 = std::make_unique<PackageQueue>(PackageQueueType::FIFO);
     Worker w(1, 2,std::move(ptr1));
     Ramp r(1,2);
     Storehouse s(1, std::move(ptr2));
