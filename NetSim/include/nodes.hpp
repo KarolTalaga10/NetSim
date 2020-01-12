@@ -11,8 +11,8 @@
 #include <functional>
 #include "helpers.hpp"
 
-enum class NodeIdentity{
-    RAMP, WORKER, STOREHOUSE
+enum class ReceiverType{
+    WORKER, STOREHOUSE
 };
 
 class IPackageReceiver
@@ -26,6 +26,7 @@ public:
     virtual iterator end() const = 0;
     virtual iterator cbegin() const = 0;
     virtual iterator cend() const = 0;
+    virtual ReceiverType get_receiver_type() const = 0;
 };
 
 class ReceiverPreferences
@@ -34,9 +35,9 @@ class ReceiverPreferences
     using const_iterator = preferences_t::const_iterator;
     using iterator = preferences_t::iterator;
 private:
-    preferences_t preferences_;
     void rebuild_pref();
     ProbabilityGenerator mRng;
+    preferences_t preferences_;
 public:
     //ReceiverPreferences(ProbabilityGenerator pg = get_random) : mRng(std::move(pg)) {}
     ReceiverPreferences(ProbabilityGenerator probability_function = probability_generator): mRng(std::move(probability_function)) {};
@@ -93,7 +94,7 @@ public:
     ElementID get_ID_from_buffer() const          { return mWorkerBuffer->get_id();}
     ElementID get_id()const override { return mID; }
     void receive_package(Package&& pck) override;
-
+    ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
     iterator begin() const override { return  mUniquePtr->begin(); }
     iterator end() const override   { return  mUniquePtr->end()  ; }
     iterator cbegin()const override { return  mUniquePtr->cbegin() ; }
@@ -112,7 +113,7 @@ public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
     ElementID get_id() const override { return mID; }
     void receive_package(Package&& pck) override;
-
+    ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
     iterator begin() const override { return mUniquePtr->begin() ; }
     iterator end() const override   { return mUniquePtr->end()   ; }
     iterator cbegin()const override { return mUniquePtr->cbegin(); }

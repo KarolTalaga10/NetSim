@@ -14,6 +14,7 @@ set(SOURCE_FILES
         src/storage_types.cpp
         src/nodes.cpp
         src/helpers.cpp
+        src/factory.cpp
         )
 
 
@@ -26,8 +27,10 @@ set(SOURCES_FILES_TESTS
         #test/storage_tests.cpp
         #test/nodes_tests.cpp
         test/test_nodes.cpp
-        #test/test_package.cpp
-        #test/test_storage_types.cpp
+        test/test_package.cpp
+        test/test_storage_types.cpp
+        test/test_Factory.cpp
+        test/test_factory_io.cpp
         )
 
 add_executable(sol__test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
