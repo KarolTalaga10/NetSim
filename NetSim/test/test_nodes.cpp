@@ -103,8 +103,15 @@ using ::testing::Return;
 /*
 // FIXME: odkomentować po wyjaśnieniu sytuacji z domyślnym generatorem prawdopodobieństwa
 TEST(ReceiverPreferencesChoosingTest, ChooseReceiver) {
+<<<<<<< Updated upstream
     // Upewnij się, że odbiorcy wybierani są z właściwym prawdopodobieństwem.
     GlobalFunctionsMock global_functions_mock;
+=======
+    GlobalFunctionsMock global_functions_mock;
+
+    // Upewnij się, że odbiorcy wybierani są z właściwym prawdopodobieństwem.
+
+>>>>>>> Stashed changes
     EXPECT_CALL(global_functions_mock, generate_canonical()).WillOnce(Return(0.3)).WillOnce(Return(0.7));
 
     ReceiverPreferences rp;
@@ -112,6 +119,18 @@ TEST(ReceiverPreferencesChoosingTest, ChooseReceiver) {
     MockReceiver r1, r2;
     rp.add_receiver(&r1);
     rp.add_receiver(&r2);
+<<<<<<< Updated upstream
+=======
+
+    if (rp.begin()->first == &r1) {
+        EXPECT_EQ(rp.choose_receiver(), &r1);
+        EXPECT_EQ(rp.choose_receiver(), &r2);
+    } else {
+        EXPECT_EQ(rp.choose_receiver(), &r2);
+        EXPECT_EQ(rp.choose_receiver(), &r1);
+    }
+}
+>>>>>>> Stashed changes
 
     if (rp.begin()->first == &r1) {
         EXPECT_EQ(rp.choose_receiver(), &r1);

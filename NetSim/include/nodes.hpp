@@ -57,6 +57,7 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
+
     ReceiverPreferences receiver_preferences_;
     PackageSender(PackageSender&& ) = default;
     explicit PackageSender() : mBuffer() , receiver_preferences_() {};

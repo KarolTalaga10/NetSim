@@ -68,6 +68,20 @@ void Factory::do_work(Time time)
 template <typename Node>
 void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id)
 {
+    collection.remove_by_id(id);
+    auto ramp_list = std::find_if(Ramps.begin(), Ramps.end(), [id](auto& elem) {
+        return id == elem.receiver_preferences_.get_preferences()->first;
+    });
 
+    for (auto& ramp: ramp_list) {
+        ramp.receiver_preferences_.remove_receiver(&collection.find_ramp_by_id(id));
+    }
+    auto worker_list = std::find_if(Workers.begin(), Workers.end(), [id](auto& elem) {
+        return id == elem.receiver_preferences_.get_preferences()->first;
+    });
+
+    for (auto& worker: worker_list) {
+        worker.receiver_preferences_.remove_receiver(&collection.find_worker_by_id(id));
+    }
 }
 */
