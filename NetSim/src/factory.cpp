@@ -14,17 +14,64 @@ void NodeCollection<Node>::remove_by_id(ElementID id_)
 
 // TO DO: te dwie funkcje ponizej sa do zrobienia, chodzi glownie o sprawdzenie czy kazdy package docelowo trafia do magazynu, trzeba uzyc przeszukiwania wglab i wykorzystac pseudokod
 
-/*
+
 bool has_reachable_storehouse(const PackageSender* sender, std::map<const PackageSender*, NodeColor>& node_colors)
 {
+    if(node_colors[sender] == NodeColor::VERIFIED)
+    {
+        return true;
+    }
+    node_colors[sender] = NodeColor::VISITED;
 
+    if(sender->receiver_preferences_.preferences_.empty())
+    {
+        throw std::logic_error("ERROR::NETWORK::INCONSISTENT");
+    }
+
+    bool is_there_anyone_in_here = false;
+    for(auto& receiver: sender->receiver_preferences_.preferences_)
+    {
+        if(receiver.first->get_receiver_type() == ReceiverType::STOREHOUSE)
+        {
+            is_there_anyone_in_here = true;
+        } else
+        {
+            IPackageReceiver* receiver_ptr = receiver.first;
+            auto worker_ptr = dynamic_cast<Worker*>(receiver_ptr);
+            auto sendrecv_ptr = dynamic_cast<PackageSender*>(worker_ptr);
+
+            if(sendrecv_ptr != sender) is_there_anyone_in_here = true;
+            if(node_colors[sendrecv_ptr] != NodeColor::VISITED)
+            {
+                has_reachable_storehouse(sendrecv_ptr, node_colors);
+            }
+        }
+    }
+    node_colors[sender] = NodeColor::VERIFIED;
+    if(is_there_anyone_in_here) return true;
+    else throw std::logic_error("ERROR::NETWORK::INCONSISTENT");
 }
 
 bool Factory::is_consistent()
 {
+    std::map<const PackageSender*, NodeColor> nodeColor;
+    for(auto& worker: Workers) nodeColor.emplace(std::make_pair(&worker, NodeColor::UNVISITED));
+    for(auto& ramp: Ramps) nodeColor.emplace(std::make_pair(&ramp, NodeColor::UNVISITED));
 
+    for(const auto& sender: Ramps)
+    {
+        try
+        {
+            has_reachable_storehouse(&sender, nodeColor);
+        }
+        catch(const std::logic_error& )
+        {
+            return false;
+        }
+    }
+    return true;
 }
-*/
+
 
 
 // W konspekcie te funckje mialy byc zrobione z uzyciem std::for_each ale nie wychodzi mi wiec for wjezdza na salony

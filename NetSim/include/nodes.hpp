@@ -31,14 +31,14 @@ public:
 
 class ReceiverPreferences
 {
-    using preferences_t = std::map<IPackageReceiver*, double>;
-    using const_iterator = preferences_t::const_iterator;
-    using iterator = preferences_t::iterator;
 private:
     void rebuild_pref();
     ProbabilityGenerator mRng;
 
 public:
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
+    using iterator = preferences_t::iterator;
     ReceiverPreferences(ProbabilityGenerator probability_function = probability_generator): mRng(std::move(probability_function)) {};
     preferences_t preferences_;
     void add_receiver(IPackageReceiver* r);
@@ -57,7 +57,6 @@ class PackageSender
 private:
     std::optional<Package> mBuffer;
 public:
-
     ReceiverPreferences receiver_preferences_;
     PackageSender(PackageSender&& ) = default;
     explicit PackageSender() : mBuffer() , receiver_preferences_() {};
@@ -75,8 +74,8 @@ private:
 public:
     Ramp(ElementID id, TimeOffset di) :PackageSender(), mOffset(di), mID(id) {};
     void deliver_goods(Time t);
-    TimeOffset get_delivery_interval()  const {return mOffset; }
-    ElementID get_id()                  const { return mID;    }
+    TimeOffset get_delivery_interval()  const { return mOffset; }
+    ElementID get_id()                  const { return mID;     }
 };
 
 class Worker : public PackageSender, public IPackageReceiver
