@@ -64,11 +64,28 @@ void Factory::do_work(Time time)
 }
 
 // Ta funkcja ma odpowiadac za usuwanie polaczen miedzy dostawcami
-/*
+
 template <typename Node>
 void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id)
 {
+    std::for_each(Ramps.begin(), Ramps.end(), [id](Ramp &ramp){
+        auto ramp_receivers = ramp.receiver_preferences_.get_preferences();
+
+        for(auto receiver = ramp_receivers.begin(); receiver != ramp_receivers.end(); receiver++) {
+            ramp.receiver_preferences_.remove_receiver(receiver->first);
+        }
+    });
+
+    std::for_each(Workers.begin(), Workers.end(), [id](Worker &worker){
+        auto worker_receivers = worker.receiver_preferences_.get_preferences();
+
+        for(auto receiver = worker_receivers.begin(); receiver != worker_receivers.end(); receiver++) {
+            worker.receiver_preferences_.remove_receiver(receiver->first);
+        }
+    });
     collection.remove_by_id(id);
+
+    /*
     auto ramp_list = std::find_if(Ramps.begin(), Ramps.end(), [id](auto& elem) {
         return id == elem.receiver_preferences_.get_preferences()->first;
     });
@@ -83,5 +100,5 @@ void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id)
     for (auto& worker: worker_list) {
         worker.receiver_preferences_.remove_receiver(&collection.find_worker_by_id(id));
     }
+     */
 }
-*/
