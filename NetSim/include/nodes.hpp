@@ -26,7 +26,7 @@ public:
     virtual iterator end() const = 0;
     virtual iterator cbegin() const = 0;
     virtual iterator cend() const = 0;
-    //virtual ReceiverType get_receiver_type() const = 0;
+    virtual ReceiverType get_receiver_type() const = 0;
 };
 
 class ReceiverPreferences
@@ -39,7 +39,6 @@ private:
     ProbabilityGenerator mRng;
 
 public:
-    //ReceiverPreferences(ProbabilityGenerator pg = get_random) : mRng(std::move(pg)) {}
     ReceiverPreferences(ProbabilityGenerator probability_function = probability_generator): mRng(std::move(probability_function)) {};
     preferences_t preferences_;
     void add_receiver(IPackageReceiver* r);
@@ -96,7 +95,7 @@ public:
     ElementID get_ID_from_buffer() const          { return mWorkerBuffer->get_id();}
     ElementID get_id()const override { return mID; }
     void receive_package(Package&& pck) override;
-    //ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
+    ReceiverType get_receiver_type() const override { return ReceiverType::WORKER; }
     iterator begin() const override { return  mUniquePtr->begin(); }
     iterator end() const override   { return  mUniquePtr->end()  ; }
     iterator cbegin()const override { return  mUniquePtr->cbegin() ; }
@@ -115,7 +114,7 @@ public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
     ElementID get_id() const override { return mID; }
     void receive_package(Package&& pck) override;
-    //ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
+    ReceiverType get_receiver_type() const override { return ReceiverType::STOREHOUSE; }
     iterator begin() const override { return mUniquePtr->begin() ; }
     iterator end() const override   { return mUniquePtr->end()   ; }
     iterator cbegin()const override { return mUniquePtr->cbegin(); }
