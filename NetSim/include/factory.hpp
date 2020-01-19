@@ -31,7 +31,14 @@ public:
     const_iterator cend() const{ return mContainer.cend(); }
 
     void add(Node& node) { mContainer.emplace_back(std::move(node));}
-    void remove_by_id(ElementID id_);
+    void remove_by_id(ElementID id_)
+    {
+        auto it = find_by_id(id_);
+        if(it != mContainer.end())
+        {
+            mContainer.erase(it);
+        }
+    }
 private:
     container_t mContainer;
 };
@@ -65,9 +72,25 @@ public:
     void do_work(Time);
 private:
     template <typename Node>
-    void remove_receiver(NodeCollection<Node>& collection, ElementID id);
+    void remove_receiver(NodeCollection<Node>& collection, ElementID id) {
+        std::for_each(Ramps.begin(), Ramps.end(), [id](Ramp &ramp)
+        {
+            auto ramp_receivers = ramp.receiver_preferences_.get_preferences();
 
-    // Jesli dobrze zrozumialem to tutaj sa de facto tworzone obiekty typu std::list (patrz alias na container_t)
+            for (auto receiver = ramp_receivers.begin(); receiver != ramp_receivers.end(); receiver++) {
+                ramp.receiver_preferences_.remove_receiver(receiver->first);
+            }
+        });
+
+        std::for_each(Workers.begin(), Workers.end(), [id](Worker &worker) {
+            auto worker_receivers = worker.receiver_preferences_.get_preferences();
+
+            for (auto receiver = worker_receivers.begin(); receiver != worker_receivers.end(); receiver++) {
+                worker.receiver_preferences_.remove_receiver(receiver->first);
+            }
+        });
+        collection.remove_by_id(id);
+    }
     NodeCollection<Ramp> Ramps;
     NodeCollection<Worker> Workers;
     NodeCollection<Storehouse> Storehouses;

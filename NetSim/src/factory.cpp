@@ -2,15 +2,7 @@
 
 #include <factory.hpp>
 
-template <typename Node>
-void NodeCollection<Node>::remove_by_id(ElementID id_)
-{
-    auto it = find_by_id(id_);
-    if(it != mContainer.end())
-    {
-        mContainer.erase(it);
-    }
-}
+
 
 // TO DO: te dwie funkcje ponizej sa do zrobienia, chodzi glownie o sprawdzenie czy kazdy package docelowo trafia do magazynu, trzeba uzyc przeszukiwania wglab i wykorzystac pseudokod
 
@@ -112,21 +104,21 @@ void Factory::do_work(Time time)
 
 // Ta funkcja ma odpowiadac za usuwanie polaczen miedzy dostawcami
 
+
 template <typename Node>
-void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id)
-{
-    std::for_each(Ramps.begin(), Ramps.end(), [id](Ramp &ramp){
+typename Node Factory<typename Node>::remove_receiver(NodeCollection<Node>& collection, ElementID id) {
+    std::for_each(Ramps.begin(), Ramps.end(), [id](Ramp &ramp) {
         auto ramp_receivers = ramp.receiver_preferences_.get_preferences();
 
-        for(auto receiver = ramp_receivers.begin(); receiver != ramp_receivers.end(); receiver++) {
+        for (auto receiver = ramp_receivers.begin(); receiver != ramp_receivers.end(); receiver++) {
             ramp.receiver_preferences_.remove_receiver(receiver->first);
         }
     });
 
-    std::for_each(Workers.begin(), Workers.end(), [id](Worker &worker){
+    std::for_each(Workers.begin(), Workers.end(), [id](Worker &worker) {
         auto worker_receivers = worker.receiver_preferences_.get_preferences();
 
-        for(auto receiver = worker_receivers.begin(); receiver != worker_receivers.end(); receiver++) {
+        for (auto receiver = worker_receivers.begin(); receiver != worker_receivers.end(); receiver++) {
             worker.receiver_preferences_.remove_receiver(receiver->first);
         }
     });
@@ -148,4 +140,6 @@ void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id)
         worker.receiver_preferences_.remove_receiver(&collection.find_worker_by_id(id));
     }
      */
+
 }
+
