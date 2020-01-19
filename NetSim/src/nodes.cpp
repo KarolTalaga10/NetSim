@@ -27,14 +27,14 @@ IPackageReceiver* ReceiverPreferences::choose_receiver()
 void ReceiverPreferences::rebuild_pref()
 {
     double sum = 0;
-    for(const auto& item : preferences_)
-    {
-        sum+= item.second;
+
+    for(auto& elem : preferences_){
+        elem.second = 1;
+        sum+=1;
     }
 
-    for(auto& item : preferences_)
-    {
-        item.second /= sum;
+    for(auto& elem : preferences_){
+        elem.second=1/sum;
     }
 }
 void PackageSender::send_package()

@@ -73,21 +73,28 @@ public:
 private:
     template <typename Node>
     void remove_receiver(NodeCollection<Node>& collection, ElementID id) {
-        std::for_each(Ramps.begin(), Ramps.end(), [](Ramp &ramp)
+        std::for_each(Ramps.begin(), Ramps.end(), [id](Ramp &ramp)
         {
             auto ramp_receivers = ramp.receiver_preferences_.get_preferences();
 
             for (auto receiver = ramp_receivers.begin(); receiver != ramp_receivers.end(); receiver++) {
-                ramp.receiver_preferences_.remove_receiver(receiver->first);
+
+                if(receiver->first->get_id()==id) {
+                    ramp.receiver_preferences_.remove_receiver(receiver->first);
+                }
             }
         });
 
-        std::for_each(Workers.begin(), Workers.end(), [](Worker &worker) {
+        std::for_each(Workers.begin(), Workers.end(), [id](Worker &worker) {
             auto worker_receivers = worker.receiver_preferences_.get_preferences();
 
             for (auto receiver = worker_receivers.begin(); receiver != worker_receivers.end(); receiver++) {
-                worker.receiver_preferences_.remove_receiver(receiver->first);
+
+                if(receiver->first->get_id()==id) {
+                    worker.receiver_preferences_.remove_receiver(receiver->first);
+                }
             }
+
         });
         collection.remove_by_id(id);
     }

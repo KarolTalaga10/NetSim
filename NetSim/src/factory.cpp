@@ -124,5 +124,4 @@ void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id) {
     });
     collection.remove_by_id(id);
 
-}
 */
